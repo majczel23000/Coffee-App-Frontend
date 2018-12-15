@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { coffees } from '../../data/coffee';
+import { kitchens } from '../../data/kitchens';
 
 @Component({
   selector: 'app-order',
@@ -7,9 +9,67 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderComponent implements OnInit {
 
+  private coffees: any[] = coffees;
+  private kitchens: any[] = kitchens;
+  private selectedCoffes: any[] = new Array();
+  private totalPrice: number = 0;
+  private selectedKitchen: number = -1;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  collectCoffee(index: number, price: number){
+    const element = document.getElementById('coffeeElement'+index);
+    if(element.classList.contains('list-group-item-primary')){
+      element.classList.remove('list-group-item-primary');
+      this.totalPrice -= price;
+      this.deleteCoffee(coffees[index].name);
+    } else{
+      element.classList.add('list-group-item-primary');
+      this.totalPrice += price;
+      if(!this.alreadyContains(coffees[index].name)){
+        this.selectedCoffes.push(coffees[index]);
+      }
+    }
+  }
+
+  alreadyContains(coffeeName): boolean{
+    for(let i = 0; i < this.selectedCoffes.length; i++){
+      if(this.selectedCoffes[i].name === coffeeName){
+        return true;
+      }
+    };
+    return false;
+  }
+
+  deleteCoffee(coffeeName){
+    for(let i = 0; i < this.selectedCoffes.length; i++){
+      if(this.selectedCoffes[i].name === coffeeName){
+        this.selectedCoffes.splice(i,1);
+      }
+    };
+  }
+
+  selectKitchen(index: number){
+    this.selectedKitchen = index;
+  }
+
+  makeAnOrder(){
+    if(this.totalPrice > 0 && this.selectedKitchen !== -1){
+      this.kitchens[this.selectedKitchen].coffeesCount += this.totalPrice;;
+      this.clearList();
+    }
+  }
+
+  clearList(){
+    this.selectedCoffes = [];
+    this.selectedKitchen = -1;
+    this.totalPrice = 0;
+    for(let i = 0; i < this.coffees.length; i++) {
+      document.getElementById('coffeeElement'+i).classList.remove('list-group-item-primary');
+    }
   }
 
 }

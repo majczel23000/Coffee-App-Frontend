@@ -17,6 +17,9 @@
       <li *ngIf="loginService.isUserLogged()" class="nav-item">
         <a class="nav-link" [routerLink]="['/stats']">Statistics</a>
       </li>
+      <li (click)="logoutUser()" *ngIf="loginService.isUserLogged()" class="nav-item">
+        <a class="nav-link">Logout</a>
+      </li>
     </ul>
   </div>
 </nav>
