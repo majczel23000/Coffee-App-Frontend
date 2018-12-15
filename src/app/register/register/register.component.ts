@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -10,31 +10,49 @@ export class RegisterComponent implements OnInit {
 
   private passwordMatch: boolean = false;
 
-  constructor() { }
+  registerForm: FormGroup;
+  submitted = false;
 
-  registerForm = new FormGroup({
-    username: new FormControl('',[
-      Validators.required
-    ]),
-    password: new FormControl('',[
-      Validators.required,
-      Validators.minLength(5)
-    ]),
-    passwordConfirm: new FormControl('',[
-      Validators.required,
-      Validators.minLength(5)
-    ])
-  });
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.registerForm = new FormGroup({
+      username: new FormControl('',[
+        Validators.required
+      ]),
+      password: new FormControl('',[
+        Validators.required,
+        Validators.minLength(5)
+      ]),
+      firstName: new FormControl('',[
+        Validators.required
+      ]),
+      lastName: new FormControl('',[
+        Validators.required
+      ])
+    });
+  }
+
+  get f() { 
+    return this.registerForm.controls; 
   }
 
   onSubmit() {
-    if(this.registerForm.value.password != this.registerForm.value.passwordConfirm){
+    this.submitted = true;
+
+    if(this.registerForm.value.password !== this.registerForm.value.passwordConfirm){
+      console.log(this.registerForm.value.password , " : ", this.registerForm.value.passwordConfirm);
       this.passwordMatch = false;
-      alert('Different passwords. Please type in exactly the same passwords!')
-    } else{
+      return;
+    } else {
       this.passwordMatch = true;
     }
+
+    if (this.registerForm.invalid) {
+      return;
+    }
+    
+
+    alert('SUCCESS!! :-)')
   }
 }
