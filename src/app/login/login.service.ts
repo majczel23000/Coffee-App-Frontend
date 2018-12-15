@@ -15,7 +15,7 @@ export class LoginService {
     if(userData.username === 'admin' && userData.password === 'admin'){
       console.log('correct');
       localStorage.setItem('token', '123456');
-      this.router.navigate(['/order']);
+      this.router.navigate(['/dashboard/order']);
     }
   }
 

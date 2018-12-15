@@ -20,7 +20,7 @@ const routes: Routes = [
     loadChildren: './register/register.module#RegisterModule'
   },
   {
-    path: 'order',
+    path: 'dashboard',
     loadChildren: './main/main.module#MainModule'
   }
 ];

@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      if(state.url === '/order' || state.url === '/statistics'){
+      if(state.url === '/dashboard/order' || state.url === '/dashboard/statistics'){
         if(localStorage.getItem('token') !== '123456'){
           this.router.navigate(['/login']);
           return false;
@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
         }
       } else if (state.url === '/login' || state.url === '/register'){
         if(localStorage.getItem('token')){
-          this.router.navigate(['/order']);
+          this.router.navigate(['/dashboard/order']);
           return true;
         } else {
           return true;
@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
           this.router.navigate(['/login']);
           return false;
         } else {
-          this.router.navigate(['/order']);
+          this.router.navigate(['/dashboard/order']);
           return false;
         }
       }
