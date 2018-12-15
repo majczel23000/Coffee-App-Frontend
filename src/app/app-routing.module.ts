@@ -15,6 +15,10 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: './register/register.module#RegisterModule'
+  },
+  {
+    path: 'order',
+    loadChildren: './main/main.module#MainModule'
   }
 ];
 
