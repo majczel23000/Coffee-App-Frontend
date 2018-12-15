@@ -14,5 +14,12 @@
   <script src="../node_modules/jquery/dist/jquery.min.js"></script>
   <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="../node_modules/@fortawesome/fontawesome-free/js/all.js"></script>
+  <script>
+      $(document).on('click','.navbar-collapse',function(e) {
+        if( $(e.target).is('a') ) {
+            $(this).collapse('hide');
+        }
+      });
+    </script>
 </body>
 </html>

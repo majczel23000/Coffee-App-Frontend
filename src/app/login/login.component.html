@@ -14,7 +14,11 @@
                     <div class="input-group-prepend">
                       <div class="input-group-text"><i class="fas fa-user"></i></div>
                     </div>
-                    <input type="text" class="form-control" formControlName="username" placeholder="Username">
+                    <input type="text" class="form-control" formControlName="username" placeholder="Username"
+                    [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                      <div *ngIf="f.username.errors.required">Username is required</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -26,7 +30,12 @@
                     <div class="input-group-prepend">
                       <div class="input-group-text"><i class="fas fa-at"></i></div>
                     </div>
-                    <input type="password" class="form-control" formControlName="password" placeholder="Password">
+                    <input type="password" class="form-control" formControlName="password" placeholder="Password"
+                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                      <div *ngIf="f.password.errors.required">Password is required</div>
+                      <div *ngIf="f.password.errors.minlength">Password must be at least 5 characters</div>
+                    </div>
                   </div>
                 </div>
               </div>
