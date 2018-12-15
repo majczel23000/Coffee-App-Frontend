@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { kitchens } from '../../data/kitchens';
 
 @Component({
   selector: 'app-statistics',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./statistics.component.css']
 })
 export class StatisticsComponent implements OnInit {
+
+  private kitchens: any[] = kitchens;
 
   constructor() { }
 
