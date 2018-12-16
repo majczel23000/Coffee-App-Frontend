@@ -1,7 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { switchMap} from 'rxjs/operators';
+
+interface User {
+  uid: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+}
 
 @Component({
   selector: 'app-register',
@@ -10,6 +20,8 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
 
+  user: Observable<User>;
+
   private passwordMatch: boolean = false;
 
   registerForm: FormGroup;
@@ -17,6 +29,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               public af: AngularFireAuth,
+              private afs: AngularFirestore,
               private router: Router) { }
 
   ngOnInit() {
@@ -54,6 +67,14 @@ export class RegisterComponent implements OnInit {
     ).then(
       (success) => {
         this.af.auth.signOut();
+        const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${success.user.email}`);
+        const data: User = {
+          uid: success.user.email,
+          username: this.registerForm.value.username,
+          firstName: this.registerForm.value.firstName,
+          lastName: this.registerForm.value.lastName
+        }
+        userRef.set(data, { merge: true });
         console.log(success);
         this.router.navigate(['/login']);
       }).catch(

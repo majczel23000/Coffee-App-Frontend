@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { coffees } from '../../data/coffee';
 import { kitchens } from '../../data/kitchens';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-order',
@@ -14,8 +15,16 @@ export class OrderComponent implements OnInit {
   private selectedCoffes: any[] = new Array();
   public totalPrice: number = 0;
   public selectedKitchen: number = -1;
+  name: any;
 
-  constructor() { }
+  constructor(public af: AngularFireAuth) { 
+    this.af.auth.onAuthStateChanged( auth => {
+      if(auth) {
+        this.name = auth;
+        console.log(this.name);
+      }
+    })
+  }
 
   ngOnInit() {
   }

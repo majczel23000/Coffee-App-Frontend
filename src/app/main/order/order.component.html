@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8 text-center mt-5">
-      <h1 class="mb-5"><i class="fas fa-mug-hot mr-4"></i>Welcome in coffeeApp!</h1>
+      <h1 class="mb-5"><i class="fas fa-mug-hot mr-4"></i>Welcome in coffeeApp {{name?.auth?.displayName }}!</h1>
       <h5 class="mb-4">Please read our offer. Then select the drink and kitchen location.</h5>
       <ul class="list-group" *ngFor="let coffee of coffees; let i = index">
         <li id="coffeeElement{{i}}" class="list-group-item list-group-item-action" (click)="collectCoffee(i, coffee.price)">

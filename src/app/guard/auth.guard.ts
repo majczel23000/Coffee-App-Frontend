@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-      // console.log("Current User: " + firebase.auth().currentUser);
+      console.log("Current User: " + firebase.auth().currentUser);
       // if(firebase.auth().currentUser !== null){
       //   return true;
       // } else {
@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate {
       } else if (state.url === '/login' || state.url === '/register'){
         if(firebase.auth().currentUser !== null){
           this.router.navigate(['/dashboard/order']);
-          return true;
+          return false;
         } else {
           return true;
         }

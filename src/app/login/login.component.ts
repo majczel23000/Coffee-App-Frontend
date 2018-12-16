@@ -1,9 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginService } from './login.service';
-import { User } from './User';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { switchMap} from 'rxjs/operators';
+
+interface User {
+  uid: string;
+  username: string;
+}
 
 @Component({
   selector: 'app-login',
@@ -12,18 +19,29 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  user: Observable<User>;
   loginForm: FormGroup;
   submitted = false;
 
   constructor(private formBuilder: FormBuilder,
               private loginService: LoginService,
               public af: AngularFireAuth,
+              private afs: AngularFirestore,
               private router: Router) { 
-                this.af.auth.onAuthStateChanged(auth => {
-                  if(auth){
-                    this.router.navigate(['/dashboard/order']);
-                  }
-                })
+                // this.af.auth.onAuthStateChanged(auth => {
+                //   if(auth){
+                //     this.router.navigate(['/dashboard/order']);
+                //   }
+                // })
+                this.user = this.af.authState.pipe(
+                  switchMap(user => {
+                    if (user) {
+                      return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
+                    } else {
+                      return of(null)
+                    }
+                  })
+                )
               }
 
   ngOnInit() {
@@ -48,13 +66,18 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    // this.af.auth.signInAndRetrieveDataWithCredential()
     this.af.auth.signInAndRetrieveDataWithEmailAndPassword(
       this.loginForm.value.username+'@coffeeapp.com',
       this.loginForm.value.password
     ).then(
     (success) => {
       console.log(success);
+      const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${success.user.email}`);
+      const data: User = {
+        uid: success.user.email,
+        username: this.loginForm.value.username
+      }
+      userRef.set(data, { merge: true });
       localStorage.setItem('token','123456');
       this.router.navigate(['/dashboard/order']);
     }).catch(
