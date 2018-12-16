@@ -9,11 +9,11 @@ import { kitchens } from '../../data/kitchens';
 })
 export class OrderComponent implements OnInit {
 
-  private coffees: any[] = coffees;
-  private kitchens: any[] = kitchens;
+  public coffees: any[] = coffees;
+  public kitchens: any[] = kitchens;
   private selectedCoffes: any[] = new Array();
-  private totalPrice: number = 0;
-  private selectedKitchen: number = -1;
+  public totalPrice: number = 0;
+  public selectedKitchen: number = -1;
 
   constructor() { }
 

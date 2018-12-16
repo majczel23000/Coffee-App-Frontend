@@ -8,7 +8,7 @@ import { kitchens } from '../../data/kitchens';
 })
 export class StatisticsComponent implements OnInit {
 
-  private kitchens: any[] = kitchens;
+  public kitchens: any[] = kitchens;
 
   constructor() { }
 
