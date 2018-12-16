@@ -49,9 +49,21 @@ export class LoginComponent implements OnInit {
     }
 
     // this.af.auth.signInAndRetrieveDataWithCredential()
-
-    let userData = new User(this.loginForm.value.username, this.loginForm.value.password);
-    this.loginService.loginUser(userData);
+    this.af.auth.signInAndRetrieveDataWithEmailAndPassword(
+      this.loginForm.value.username+'@coffeeapp.com',
+      this.loginForm.value.password
+    ).then(
+    (success) => {
+      console.log(success);
+      localStorage.setItem('token','123456');
+      this.router.navigate(['/dashboard/order']);
+    }).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
+    // let userData = new User(this.loginForm.value.username, this.loginForm.value.password);
+    // this.loginService.loginUser(userData);
   }
 
 }

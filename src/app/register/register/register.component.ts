@@ -44,23 +44,16 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    if(this.registerForm.value.password !== this.registerForm.value.passwordConfirm){
-      console.log(this.registerForm.value.password , " : ", this.registerForm.value.passwordConfirm);
-      this.passwordMatch = false;
-      return;
-    } else {
-      this.passwordMatch = true;
-    }
-
     if (this.registerForm.invalid) {
       return;
     }
 
     this.af.auth.createUserWithEmailAndPassword(
-      this.registerForm.value.email,
+      this.registerForm.value.username+'@coffeeapp.com',
       this.registerForm.value.password
     ).then(
       (success) => {
+        this.af.auth.signOut();
         console.log(success);
         this.router.navigate(['/login']);
       }).catch(
