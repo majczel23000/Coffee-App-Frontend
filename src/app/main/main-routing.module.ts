@@ -9,17 +9,17 @@ const routes: Routes = [
     path: '',
     redirectTo: 'order',
     pathMatch: 'full',
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'order',
     component: OrderComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'statistics',
     component: StatisticsComponent,
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   }
 ];
 

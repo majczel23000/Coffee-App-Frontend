@@ -5,13 +5,8 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { switchMap} from 'rxjs/operators';
-
-interface User {
-  uid: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-}
+import { RegisterService } from './register.service';
+import { User } from '../../data/User';
 
 @Component({
   selector: 'app-register',
@@ -20,9 +15,11 @@ interface User {
 })
 export class RegisterComponent implements OnInit {
 
-  user: Observable<User>;
-
-  private passwordMatch: boolean = false;
+  user: User = {
+    firstName: '',
+    lastName: '',
+    username: ''
+  }
 
   registerForm: FormGroup;
   submitted = false;
@@ -30,7 +27,8 @@ export class RegisterComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               public af: AngularFireAuth,
               private afs: AngularFirestore,
-              private router: Router) { }
+              private router: Router,
+              private registerService: RegisterService) { }
 
   ngOnInit() {
     this.registerForm = new FormGroup({
@@ -61,26 +59,18 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    this.af.auth.createUserWithEmailAndPassword(
-      this.registerForm.value.username+'@coffeeapp.com',
-      this.registerForm.value.password
-    ).then(
-      (success) => {
-        this.af.auth.signOut();
-        const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${success.user.email}`);
-        const data: User = {
-          uid: success.user.email,
-          username: this.registerForm.value.username,
-          firstName: this.registerForm.value.firstName,
-          lastName: this.registerForm.value.lastName
-        }
-        userRef.set(data, { merge: true });
-        console.log(success);
-        this.router.navigate(['/login']);
-      }).catch(
-        (err) => {
-          console.log(err);
-        }
-      )
+    const userData = {
+      username: this.registerForm.value.username,
+      password: this.registerForm.value.password,
+      firstName: this.registerForm.value.firstName,
+      lastName: this.registerForm.value.lastName
+    }
+
+    this.user.firstName = userData.firstName;
+    this.user.lastName = userData.lastName;
+    this.user.username = userData.username;
+
+    this.registerService.registerUser(userData, this.user);
+    
   }
 }

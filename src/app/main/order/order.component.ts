@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { coffees } from '../../data/coffee';
 import { kitchens } from '../../data/kitchens';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { OrderService } from './order.service';
 
 @Component({
   selector: 'app-order',
@@ -17,19 +18,14 @@ export class OrderComponent implements OnInit {
   public selectedKitchen: number = -1;
   name: any;
 
-  constructor(public af: AngularFireAuth) { 
-    this.af.auth.onAuthStateChanged( auth => {
-      if(auth) {
-        this.name = auth;
-        console.log(this.name);
-      }
-    })
+  constructor(public af: AngularFireAuth,
+              private orderService: OrderService) { 
   }
 
   ngOnInit() {
   }
 
-  collectCoffee(index: number, price: number){
+  collectCoffee(index: number, price: number): void{
     const element = document.getElementById('coffeeElement'+index);
     if(element.classList.contains('list-group-item-primary')){
       element.classList.remove('list-group-item-primary');
@@ -67,7 +63,8 @@ export class OrderComponent implements OnInit {
 
   makeAnOrder(){
     if(this.totalPrice > 0 && this.selectedKitchen !== -1){
-      this.kitchens[this.selectedKitchen].coffeesCount += this.totalPrice;;
+      console.log()
+      this.orderService.makeAnOrder(this.selectedCoffes, this.kitchens[this.selectedKitchen].name);
       this.clearList();
     }
   }

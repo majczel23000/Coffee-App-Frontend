@@ -28,20 +28,7 @@ export class LoginComponent implements OnInit {
               public af: AngularFireAuth,
               private afs: AngularFirestore,
               private router: Router) { 
-                // this.af.auth.onAuthStateChanged(auth => {
-                //   if(auth){
-                //     this.router.navigate(['/dashboard/order']);
-                //   }
-                // })
-                this.user = this.af.authState.pipe(
-                  switchMap(user => {
-                    if (user) {
-                      return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
-                    } else {
-                      return of(null)
-                    }
-                  })
-                )
+                
               }
 
   ngOnInit() {
@@ -72,13 +59,6 @@ export class LoginComponent implements OnInit {
     ).then(
     (success) => {
       console.log(success);
-      const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${success.user.email}`);
-      const data: User = {
-        uid: success.user.email,
-        username: this.loginForm.value.username
-      }
-      userRef.set(data, { merge: true });
-      localStorage.setItem('token','123456');
       this.router.navigate(['/dashboard/order']);
     }).catch(
       (err) => {

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { User } from './User';
 import { coffees } from '../data/coffee';
 import { Router } from '@angular/router';
+import { first, tap } from 'rxjs/operators';
+import * as firebase from "firebase";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,7 @@ export class LoginService {
   }
 
   isUserLogged(){
-    return localStorage.getItem('token');
+    return firebase.auth().currentUser;
   }
 
 }

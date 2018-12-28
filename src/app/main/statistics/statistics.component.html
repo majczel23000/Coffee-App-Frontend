@@ -8,15 +8,15 @@
         <li class="list-group-item list-group-item-action">
           <div class="row">
             <div class="col-md-6 active">
-              {{kitchen.name}} :
+              {{kitchen?.name}} :
             </div>
             <div class="col-md-6">
-              {{kitchen.coffeesCount}}
+              {{kitchen?.count}}
             </div>
           </div>
         </li>
       </ul>
-      <h5 class="mt-5 mb-4">Number of drinkers in different period of time</h5>
+      <h5 class="mt-5 mb-4">Number of drinked coffees and drinkers names in different period of time</h5>
       <ul class="list-group">
         <li class="list-group-item list-group-item-action">
           <div class="row">
@@ -24,7 +24,14 @@
               Today :
             </div>
             <div class="col-md-6">
-              unknow
+              {{counters?.today}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <span *ngFor="let drinker of uniqueDrinkers?.today">
+                {{drinker}}  
+              </span>
             </div>
           </div>
         </li>
@@ -34,7 +41,14 @@
               Week :
             </div>
             <div class="col-md-6">
-              unknow
+              {{counters?.week}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <span *ngFor="let drinker of uniqueDrinkers?.week">
+                {{drinker}}  
+              </span>
             </div>
           </div>
         </li>
@@ -44,7 +58,14 @@
               Month :
             </div>
             <div class="col-md-6">
-              unknow
+              {{counters?.month}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <span *ngFor="let drinker of uniqueDrinkers?.month">
+                {{drinker}}  
+              </span>
             </div>
           </div>
         </li>
@@ -54,7 +75,14 @@
               Quarter :
             </div>
             <div class="col-md-6">
-              unknow
+              {{counters?.quarter}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <span *ngFor="let drinker of uniqueDrinkers?.quarter">
+                {{drinker}}  
+              </span>
             </div>
           </div>
         </li>
@@ -64,7 +92,14 @@
               Year :
             </div>
             <div class="col-md-6">
-              unknow
+              {{counters?.year}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <span *ngFor="let drinker of uniqueDrinkers?.year">
+                {{drinker}}  
+              </span>
             </div>
           </div>
         </li>
