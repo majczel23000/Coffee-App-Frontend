@@ -32,6 +32,13 @@ export class StatisticsComponent implements OnInit {
   private currentDate: string = new Date().toISOString().substring(0, 10);
   orders: Order[];
 
+  dateRangeExists: boolean = false;
+  dateFrom: string = '';
+  dateTo: string = '';
+  drinkersRange: any[] = [];
+  uniqueDrinkersRange: any[] = [];
+  counterRange: number = 0;
+
   constructor(private statisticsService: StatisticsService) { }
 
   ngOnInit() {
@@ -89,6 +96,30 @@ export class StatisticsComponent implements OnInit {
 
   collectUniqueDrinkers(value, index, self){
     return self.indexOf(value) === index;
+  }
+
+  showWithDateRange(){
+    this.counterRange = 0;
+    this.drinkersRange = [];
+    this.uniqueDrinkersRange = [];
+    this.dateFrom = (<HTMLInputElement>document.getElementById('dateFrom')).value;
+    this.dateTo = (<HTMLInputElement>document.getElementById('dateTo')).value;
+    if (this.dateFrom !== '' && this.dateTo !== '') {
+      this.dateRangeExists = true;
+      this.countCoffeesAndDrinkersWithRange(this.dateFrom, this.dateTo);
+    }
+  }
+
+  countCoffeesAndDrinkersWithRange(dateFrom: string, dateTo: string): void {
+    for (let i = 0; i < this.orders.length; i++) {
+      const dates = this.parseDates(dateFrom, dateTo);
+      dates.push(Date.parse(this.orders[i].date));
+      if (dates[0] <= dates[2] && dates[2] <= dates[1]) {
+        this.counterRange += 1;
+        this.drinkersRange.push(this.orders[i].user);
+      }
+    }
+    this.uniqueDrinkersRange = this.drinkersRange.filter( this.collectUniqueDrinkers );
   }
 
 }

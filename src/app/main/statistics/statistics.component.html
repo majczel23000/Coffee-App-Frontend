@@ -30,7 +30,7 @@
           <div class="row">
             <div class="col-md-12">
               <span *ngFor="let drinker of uniqueDrinkers?.today">
-                {{drinker}}  
+                {{drinker}}<br>
               </span>
             </div>
           </div>
@@ -47,7 +47,7 @@
           <div class="row">
             <div class="col-md-12">
               <span *ngFor="let drinker of uniqueDrinkers?.week">
-                {{drinker}}  
+                {{drinker}} <br> 
               </span>
             </div>
           </div>
@@ -64,7 +64,7 @@
           <div class="row">
             <div class="col-md-12">
               <span *ngFor="let drinker of uniqueDrinkers?.month">
-                {{drinker}}  
+                {{drinker}}  <br>
               </span>
             </div>
           </div>
@@ -81,7 +81,7 @@
           <div class="row">
             <div class="col-md-12">
               <span *ngFor="let drinker of uniqueDrinkers?.quarter">
-                {{drinker}}  
+                {{drinker}} <br> 
               </span>
             </div>
           </div>
@@ -98,7 +98,7 @@
           <div class="row">
             <div class="col-md-12">
               <span *ngFor="let drinker of uniqueDrinkers?.year">
-                {{drinker}}  
+                {{drinker}}<br>  
               </span>
             </div>
           </div>
@@ -106,13 +106,35 @@
       </ul>
       <h5 class="mt-5 mb-4">Select period of time:</h5>
       <div class="row mb-5">
-        <div class="col-md-6">
-          <input type="date">
+        <div class="col-md-4">
+          <input type="date" id="dateFrom">
         </div>
-        <div class="col-md-6">
-          <input type="date">
+        <div class="col-md-4">
+          <input type="date" id="dateTo">
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-success btn-block" (click)="showWithDateRange()">Show</button>
         </div>
       </div>
+      <ul class="list-group mb-5" *ngIf="dateRangeExists">
+        <li class="list-group-item list-group-item-action">
+          <div class="row">
+            <div class="col-md-6">From {{dateFrom}} to {{dateTo}}:</div>
+            <div class="col-md-6">{{counterRange}}</div>
+          </div>
+        </li>
+        <li class="list-group-item list-group-item-action">
+          <div class="row">
+            <div class="col-md-12">
+              <span *ngFor="let drinker of uniqueDrinkersRange">
+                {{drinker}}<br>  
+              </span>
+            </div>
+          </div>  
+        </li>
+      </ul> 
+      
+      
     </div>
     <div class="col-md-2"></div>
   </div>
